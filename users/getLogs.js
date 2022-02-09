@@ -40,7 +40,7 @@ const getLogs = async (userId, { from, to, limit }) => {
     }
     return acc;
   }, []);
-  return { data };
+  return data;
 };
 
 module.exports = getLogs;
