@@ -52,7 +52,7 @@ app.get("/api/users/:user/logs", async (req, res) => {
   }
 });
 
-app.get("/api/users", (req, res) => {
+app.get("/api/users", async (req, res) => {
   try {
     const data = await getUsers();
     res.send(data);
