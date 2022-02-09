@@ -7,54 +7,54 @@ const mongoose  = require('mongoose')
 const createUser = require('./users/createUser')
 const addExercise = require('./users/addExercise')
 const getLogs = require('./users/getLogs')
+const getUsers = require("./users/getUsers");
 
-require('dotenv').config()
+require("dotenv").config();
 
-app.use(cors())
-app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(cors());
+app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html')
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/views/index.html");
 });
 
-app.post('/api/users', async (req,res)=>{
+app.post("/api/users", async (req, res) => {
   try {
-    const user = req.body.username
-    const {username,_id} = await createUser(user)
-    console.log(username,_id)
-    res.send({username,_id})
+    const user = req.body.username;
+    const { username, _id } = await createUser(user);
+    console.log(username, _id);
+    res.send({ username, _id });
   } catch (error) {
-    res.status(500).send({error: error.message})
+    res.status(500).send({ error: error.message });
   }
-})
-app.post('/api/users/:user/exercises', async (req,res)=>{
+});
+app.post("/api/users/:user/exercises", async (req, res) => {
   try {
-    const {description,duration,date} = req.body
-    const {user} = req.params
-    const data = await addExercise(user,{description,duration,date})
-    res.send(data)
+    const { description, duration, date } = req.body;
+    const { user } = req.params;
+    const data = await addExercise(user, { description, duration, date });
+    res.send(data);
   } catch (error) {
-    res.status(500).send({error: error.message})
+    res.status(500).send({ error: error.message });
   }
-})
+});
 
-app.get('/api/users/:user/logs', async (req,res)=>{
+app.get("/api/users/:user/logs", async (req, res) => {
   try {
-    const {user} = req.params
-    const {from=null,to=null,limit=null} = req.query
-    const data = await getLogs(user,{from,to,limit})
-    res.send(data)
+    const { user } = req.params;
+    const { from = null, to = null, limit = null } = req.query;
+    const data = await getLogs(user, { from, to, limit });
+    res.send(data);
   } catch (error) {
-    res.status(500).send({error: error.message})
+    res.status(500).send({ error: error.message });
   }
-
-})
+});
 
 app.get("/api/users", (req, res) => {
   try {
-    const data = await getLogs();
+    const data = await getUsers();
     res.send(data);
   } catch (error) {
     res.status(500).send({ error: error.message });
