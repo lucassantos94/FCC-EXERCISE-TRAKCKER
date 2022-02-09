@@ -52,6 +52,15 @@ app.get('/api/users/:user/logs', async (req,res)=>{
 
 })
 
+app.get("/api/users", (req, res) => {
+  try {
+    const data = await getLogs();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 const connectMongo = async () =>{ 
   await mongoose.connect(process.env.MONGOURI)
   console.log('connected to mongo')
