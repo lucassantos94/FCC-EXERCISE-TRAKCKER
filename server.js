@@ -32,7 +32,7 @@ app.post("/api/users", async (req, res) => {
 });
 app.post("/api/users/:user/exercises", async (req, res) => {
   try {
-    const { description, duration, date } = req.body;
+    const { description, duration, date = new date() } = req.body;
     const { user } = req.params;
     const data = await addExercise(user, { description, duration, date });
     res.send(data);
